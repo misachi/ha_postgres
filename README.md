@@ -9,8 +9,10 @@ export BACKUP_DIR=/path/to/backup/data  # ARCHIVE_DIR and BACKUP_DIR should be s
 sudo chown -R 991:991 $BACKUP_DIR
 
 ./run_pg.sh <node number> <port>  e.g nohup ./run.sh 1 5432 > /tmp/test.1 &, nohup ./run.sh 2 5433 > /tmp/test.2 &, nohup ./run.sh 3 5434 > /tmp/test.3 &
-./barman
-./grafana
-```
 
-After every script has ran to completion, check the browser on http://localhost:3000 to access Grafana
+# Create roles to be used by barman and the stats exporter
+docker exec testPG.1 bash -c "/usr/local/pgsql/bin/psql -U patroni_super -d postgres -c \"CREATE USER streaming_barman WITH REPLICATION ENCRYPTED PASSWORD 'streaming_barman'; CREATE USER barman WITH SUPERUSER ENCRYPTED PASSWORD 'barman'; CREATE USER prom_pg_exporter WITH SUPERUSER ENCRYPTED PASSWORD 'prom_pg_exporter';\""
+
+./barman.sh
+./grafana.sh
+```
