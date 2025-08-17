@@ -75,15 +75,23 @@ EOF
 
   ND=`docker ps -a | grep ${NODE} | awk '{print $NF}'`
   if [ "${ND}" = "" ]; then
-    if [ -z ${BACKUP_DIR+x} ]; then
-      echo "BACKUP_DIR variable must exist" >&2
-      exit 1
-    fi
     # export BACKUP_DIR=/home/vagrant/.tmp/Backup && mkdir -p $BACKUP_DIR
-    docker run -d --name ${NODE} -p $2:5432 \
-      --mount type=bind,source=${ARCHIVE_DIR},target=/home/postgres/.tmp  \
-      --mount type=bind,source=${BACKUP_DIR},target=/usr/local/pgsql/data \
-      --restart=on-failure ${IMG}:latest bash -c 'tail /dev/null -f'
+    NODE1=`docker ps -a | grep testPG.1 | awk '{print $NF}'`
+    # Put backup directory only on primary node
+    if [ "${NODE1}" = "" ]; then
+      if [ -z ${BACKUP_DIR+x} ]; then
+        echo "BACKUP_DIR variable must exist" >&2
+        exit 1
+      fi
+      docker run -d --name ${NODE} -p $2:5432 \
+        --mount type=bind,source=${ARCHIVE_DIR},target=/home/postgres/.tmp  \
+        --mount type=bind,source=${BACKUP_DIR},target=/usr/local/pgsql/data \
+        --restart=on-failure ${IMG}:latest bash -c 'tail /dev/null -f'
+    else
+      docker run -d --name ${NODE} -p $2:5432 \
+        --mount type=bind,source=${ARCHIVE_DIR},target=/home/postgres/.tmp  \
+        --restart=on-failure ${IMG}:latest bash -c 'tail /dev/null -f'
+    fi
   fi
 fi
 
