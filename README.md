@@ -16,3 +16,22 @@ docker exec testPG.1 bash -c "/usr/local/pgsql/bin/psql -U patroni_super -d post
 ./barman.sh
 ./grafana.sh
 ```
+
+After every script has ran to completion, check the browser on http://localhost:3000 to access Grafana and login using default username and password `admin` for both.
+
+Once logged in create a data source ![data source](assets/data_source.png)
+
+Point it to Prometheus ![Prometheus](assets/add_data_source.png)
+
+Set listening address  ![listening address](assets/prom_connect.png)
+
+Save the changes ![changes](assets/save_data_source.png) Create a new dashboard by clicking on the `building a new dashboard` link on the success screen or `Dashboards` tab on the navigation bar.
+
+Click to `import a dashboard` of your choice. Select `discard` in the pop up that follows. You can choose from the many available ones in [grafana store](http://). ![select import](assets/create_dashboard.png)
+
+
+Copy the ID of the dashboard you prefer and paste it here. This example uses `PG Overview` dashboard with ID `18316`. ![load](assets/load_dashboard.png)
+
+Load it up! Import the dashboard ![import](assets/import_dashboard.png)
+
+It should be loaded and showing all the metrics collected by the exporter from the configured Postgres instance(node). ![final view](assets/final_screen.png)
