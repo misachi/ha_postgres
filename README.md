@@ -27,7 +27,7 @@ Set listening address  ![listening address](assets/prom_connect.png)
 
 Save the changes ![changes](assets/save_data_source.png) Create a new dashboard by clicking on the `building a new dashboard` link on the success screen or `Dashboards` tab on the navigation bar.
 
-Click to `import a dashboard` of your choice. Select `discard` in the pop up that follows. You can choose from the many available ones in [grafana store](http://). ![select import](assets/create_dashboard.png)
+Click to `import a dashboard` of your choice. Select `discard` in the pop up that follows. You can choose from the many available ones in [grafana store](https://grafana.com/grafana/dashboards/). ![select import](assets/create_dashboard.png)
 
 
 Copy the ID of the dashboard you prefer and paste it here. This example uses `PG Overview` dashboard with ID `18316`. ![load](assets/load_dashboard.png)
