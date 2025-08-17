@@ -85,13 +85,16 @@ EOF_OUT
     rm temp.sh
     docker exec barman bash -c "chmod +x run.sh && ./run.sh"
 
-    RES=`docker exec -it barman bash -c "source /var/lib/barman/.bashrc && barman list-backups node1"`
-    if [ "${RES}" = "" ]; then
-      echo "Error when performing backups" >&2
-      exit 1
-    else
-      echo -e 'First Backup is complete\nBarman is Ready!'
-    fi
+    docker exec -t barman bash -c "source /var/lib/barman/.bashrc && barman check node1 && barman backup --name first-backup node1"
+
+else
+docker exec -t barman bash -c "source /var/lib/barman/.bashrc && barman check node1 && barman backup --name first-backup node1"
 fi
 
-docker exec -t barman bash -c "source /var/lib/barman/.bashrc && barman check node1 && barman backup --name first-backup node1"
+RES=`docker exec -it barman bash -c "source /var/lib/barman/.bashrc && barman list-backups node1"`
+if [ "${RES}" = "" ]; then
+  echo "Error when performing backups" >&2
+  exit 1
+else
+  echo -e 'First Backup is complete\nBarman is Ready!'
+fi
