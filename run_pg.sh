@@ -61,8 +61,7 @@ RUN ./configure  --with-liburing --enable-debug --with-lz4 && \
         make install
 
 # Putting executables in our PATH to make things easier later
-RUN echo "export PATH=/usr/bin:/usr/local/bin:/usr/local/pgsql/bin/" >> /etc/bash.bashrc && \
-        echo "export PGDATA=/usr/local/pgsql/data" >> /etc/bash.bashrc && \
+RUN echo "export PATH=/usr/local/pgsql/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> /etc/bash.bashrc && \
         chown -R ${USR}:${USR} /usr/local/pgsql
 USER ${USR}
 EOF
