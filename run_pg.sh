@@ -105,14 +105,14 @@ if [ "${ETCD}" = "" ]; then
       cd etcd && export PATH=/usr/bin:/usr/local/bin:/etcd/bin:/usr/local/go/bin && \
       ./scripts/build.sh"
   ETCD_IP=`docker inspect --format='{{ .NetworkSettings.IPAddress }}' etcd`
-  docker exec etcd bash -c "/etcd/bin/etcd --listen-client-http-urls='http://${ETCD_IP}:2379' --advertise-client-urls='http://${ETCD_IP}:2379'" &
+  docker exec etcd bash -c "/etcd/bin/etcd --listen-client-http-urls='http://${ETCD_IP}:2379' --advertise-client-urls='http://${ETCD_IP}:2379' &"
 fi
 
 ETCD_IP=`docker inspect --format='{{ .NetworkSettings.IPAddress }}' etcd`
 if [ "${ETCD_IP}" = "" ]; then
-  docker start etcd && \
-    ETCD_IP=`docker inspect --format='{{ .NetworkSettings.IPAddress }}' etcd` && \
-  docker exec etcd bash -c "/etcd/bin/etcd --listen-client-http-urls='http://${ETCD_IP}:2379' --advertise-client-urls='http://${ETCD_IP}:2379'" &
+  docker start etcd
+  ETCD_IP=`docker inspect --format='{{ .NetworkSettings.IPAddress }}' etcd` && \
+  docker exec etcd bash -c "/etcd/bin/etcd --listen-client-http-urls='http://${ETCD_IP}:2379' --advertise-client-urls='http://${ETCD_IP}:2379' &"
 fi
 
 MY_IP=`docker inspect --format='{{ .NetworkSettings.IPAddress }}' ${NODE}`
