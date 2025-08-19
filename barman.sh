@@ -88,7 +88,8 @@ EOF_OUT
     docker exec -t barman bash -c "source /var/lib/barman/.bashrc && barman check node1 && barman backup --name first-backup node1"
 
 else
-docker exec -t barman bash -c "source /var/lib/barman/.bashrc && barman check node1 && barman backup --name first-backup node1"
+docker start barman
+docker exec -t barman bash -c "source /var/lib/barman/.bashrc && barman cron && barman check node1 && barman backup --name first-backup node1"
 fi
 
 RES=`docker exec -it barman bash -c "source /var/lib/barman/.bashrc && barman list-backups node1"`
