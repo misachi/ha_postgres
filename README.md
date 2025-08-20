@@ -17,7 +17,7 @@ docker exec testPG.1 bash -c "/usr/local/pgsql/bin/psql -U patroni_super -d post
 ./grafana.sh
 ```
 
-After every script has ran to completion, check the browser on http://localhost:3000 to access Grafana and login using default username and password `admin` for both.
+After every script has ran to completion, check the browser on http://localhost:3000 to access Grafana and login using default username and password `admin` for both. See the long post [here](https://dev.to/misachi/ha-postgres-with-patroni-and-barman-ien)
 
 Once logged in create a data source ![data source](assets/data_source.png)
 
